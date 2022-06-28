@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { api } from '../services/api';
 
 import { Button } from '../components/Button';
@@ -26,18 +26,23 @@ export function SideBar({ selectedGenreId, setSelectedGenreId }: SidebarProps) {
     });
   }, []);
 
-  function handleClickButton(id: number) {
-    setSelectedGenreId(id);
-  }
+  const handleClickButton = useCallback(async (id: number) => {
+    setSelectedGenreId(id)
+  },[])
+  // function handleClickButton(id: number) {
+  //   setSelectedGenreId(id);
+  // }
 
   return (
     <div className="buttons-container">
       {genres.map(genre => (
         <Button
           key={String(genre.id)}
-          title={genre.title}
-          iconName={genre.name}
-          onClick={() => handleClickButton(genre.id)}
+          genre={genre}
+          // title={genre.title}
+          // iconName={genre.name}
+          // onClick={() => handleClickButton(genre.id)}
+          onClickButton={handleClickButton}
           selected={selectedGenreId === genre.id}
         />
       ))}
